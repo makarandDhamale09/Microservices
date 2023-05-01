@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: service-registry
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false

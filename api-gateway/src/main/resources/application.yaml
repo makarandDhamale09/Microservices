@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: api-gateway
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+
+  cloud:
+    gateway:
+      routes:
+        - id: employee-service
+          uri: lb://EMPLOYEE-SERVICE
+          predicates:
+            - Path=/employee/**
+
+        - id: leaves-service
+          uri: lb://LEAVES-SERVICE
+          predicates:
+            - Path=/leaves/**
+
+        - id: auth-server
+          uri: lb://AUTH-SERVER
+          predicates:
+            - Path=/auth/**
+
+
+# This configuration is used to add locate the service from service registry and route the request
+# and to make the service name in lower case
+
+#  cloud:
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+#          lower-case-service-id: true
+
+server:
+  port: 8765
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

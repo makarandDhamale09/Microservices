@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: leaves-service
+
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+
+server:
+  port: 8082
+  #servlet:
+  # context-path: /leaves-service
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

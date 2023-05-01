@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: auth-server
+  datasource:
+    url: mongodb://localhost:27017/MyDatabase
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/MyDatabase
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+
+server:
+  port: 8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
