@@ -24,8 +24,8 @@ public class ApiConfiguration {
         .build();
   }*/
 
-    @Bean
-    public RestTemplate restTemplate(){
-        return new RestTemplate();
-    }
+  @Bean
+  public RestTemplate restTemplate() {
+    return new RestTemplate();
+  }
 }

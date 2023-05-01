@@ -11,8 +11,7 @@ public class AuthenticationFilter
 
   @Autowired private RouteValidator validator;
 
-  @Autowired
-  private RestTemplate restTemplate;
+  @Autowired private RestTemplate restTemplate;
 
   public AuthenticationFilter() {
     super(Config.class);
@@ -28,15 +27,16 @@ public class AuthenticationFilter
         String authHeader =
             exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
 
-        if(authHeader !=null && authHeader.startsWith("Bearer ")){
-            authHeader=authHeader.substring(7);
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+          authHeader = authHeader.substring(7);
         }
-        try{
-            restTemplate.getForObject("http://AUTH_SERVER/auth/validate?token="+authHeader,String.class);
+        try {
+          restTemplate.getForObject(
+              "http://AUTH_SERVER/auth/validate?token=" + authHeader, String.class);
 
-        }catch (Exception e){
-            System.out.println("invalid access.....");
-            throw new RuntimeException("unauthorized access to application");
+        } catch (Exception e) {
+          System.out.println("invalid access.....");
+          throw new RuntimeException("unauthorized access to application");
         }
       }
       return chain.filter(exchange);
