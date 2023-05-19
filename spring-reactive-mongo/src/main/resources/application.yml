@@ -1,0 +1,7 @@
+spring:
+  application.name: spring-reactive-mongodb
+
+  data.mongodb.uri: mongodb://localhost:27017/MyDatabase
+
+
+
