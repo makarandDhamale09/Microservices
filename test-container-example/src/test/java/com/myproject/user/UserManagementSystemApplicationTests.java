@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,14 +22,24 @@ class UserManagementSystemApplicationTests {
 
   @Autowired private MockMvc mockMvc;
 
+  @Container @ServiceConnection // After springBoot 3.1.0
+  private static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.1.0");
+
+  // Before SpringBoot 3.1.0
+  //  @DynamicPropertySource
+  //  static void dynamicConfiguration(DynamicPropertyRegistry registry){
+  //    registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
+  //    registry.add("spring.datasource.username", mySQLContainer::getUsername);
+  //    registry.add("spring.datasource.password", mySQLContainer::getPassword);
+  //  }
+
   @Test
   void contextLoads() {}
 
   public static String asJsonString(final Object obj) throws Exception {
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
-      final String jsonContent = objectMapper.writeValueAsString(obj);
-      return jsonContent;
+      return objectMapper.writeValueAsString(obj);
     } catch (JsonProcessingException e) {
       throw new Exception("Unable to process the user Object");
     }
