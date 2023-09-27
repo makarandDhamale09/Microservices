@@ -1,7 +1,5 @@
 package com.myproject.user;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.user.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@Testcontainers
 class UserManagementSystemApplicationTests {
 
   @Autowired private MockMvc mockMvc;
@@ -51,10 +53,10 @@ class UserManagementSystemApplicationTests {
   void testGetAllEmployees() throws Exception {
     mockMvc
         .perform(
-            MockMvcRequestBuilders.get("/api/vi/user/allUsers")
+            MockMvcRequestBuilders.get("/api/v1/user/allUsers")
                 .contentType("application/json")
                 .accept("application/json"))
-        .andExpect(MockMvcResultMatchers.status().isOk());
-    // .andExpect(MockMvcResultMatchers.jsonPath("$", ))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1));
   }
 }
