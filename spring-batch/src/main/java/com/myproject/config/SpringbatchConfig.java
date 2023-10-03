@@ -3,6 +3,7 @@ package com.myproject.config;
 import com.myproject.model.User;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -12,36 +13,44 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.LineMapper;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.validation.annotation.Validated;
 
 @Configuration
 public class SpringbatchConfig {
 
   @Bean
-  private LineMapper<User> lineMapper() {
+  public LineMapper<User> lineMapper() {
     DefaultLineMapper<User> defaultLineMapper = new DefaultLineMapper<>();
-    DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer(",");
-    return null;
+    DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
+    lineTokenizer.setDelimiter(",");
+    lineTokenizer.setStrict(false);
+    lineTokenizer.setNames("id", "name", "department", "salary");
+
+    BeanWrapperFieldSetMapper<User> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+    fieldSetMapper.setTargetType(User.class);
+    defaultLineMapper.setLineTokenizer(lineTokenizer);
+    defaultLineMapper.setFieldSetMapper(fieldSetMapper);
+    return defaultLineMapper;
   }
 
   @Bean
-  public FlatFileItemReader<User> flatFileItemReader(@Value("${input}") Resource resource) {
+  public FlatFileItemReader<User> itemReader() {
     FlatFileItemReader<User> flatFileItemReader = new FlatFileItemReader<>();
-    flatFileItemReader.setResource(resource);
+    flatFileItemReader.setResource(new FileSystemResource("src/main/resources/users.csv"));
     flatFileItemReader.setName("CSV-Reader");
     flatFileItemReader.setLinesToSkip(1);
     flatFileItemReader.setLineMapper(lineMapper());
+    //flatFileItemReader.setStrict(false);
     return flatFileItemReader;
   }
-
-
 
   @Bean
   public Step step(
