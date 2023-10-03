@@ -1,0 +1,18 @@
+{
+  authorById(id: 1){
+    id
+    name
+    books{
+      title
+    }
+  }
+  authors {
+    id
+    name
+    books {
+      id
+      title
+      publisher
+    }
+  }
+}
