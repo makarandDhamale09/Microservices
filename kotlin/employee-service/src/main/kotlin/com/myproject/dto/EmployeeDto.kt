@@ -1,6 +1,6 @@
 package com.myproject.dto
 
-import java.util.*
+import java.util.Date
 
 data class EmployeeDto(
     val firstName: String,
