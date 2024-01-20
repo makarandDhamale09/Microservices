@@ -15,7 +15,6 @@ class EmployeeService {
     }
 
     fun getAllEmployees(): List<EmployeeDto> {
-
         val employeeDtoList = employees.map {
             EmployeeDto(
                 it.firstName, it.lastName,
