@@ -1,6 +1,10 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/myDatabase
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/my_db
   jpa:
+    hibernate:
+      ddl-auto: create
     properties:
-      dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
