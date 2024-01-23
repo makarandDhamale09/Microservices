@@ -1,10 +1,22 @@
+server:
+  port: 8081
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/my_db
+#    Changes for dell linux
+    username: postgres
+    password: password
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+hazelcast:
+  instance:
+    name: dev
+  management-center:
+    enabled: true
+    url: http://localhost:8080/hazelcast-mancenter
