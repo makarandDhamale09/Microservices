@@ -13,7 +13,7 @@ fun main() {
     machine.selectProduct(COKE)
 
     //insertCoins and return change
-    machine.insertCoin(listOf(FIVE, TEN))
+    machine.insertCoin(listOf(FIVE))
 
     //dispense Product
     machine.dispenseProduct()

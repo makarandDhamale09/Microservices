@@ -1,5 +1,8 @@
+import java.util.*
+
 class VendingMachine(private val products: ArrayList<Product> = ArrayList()) {
     private var selectedProduct: Product? = null
+    private var coinSum: Int = 0
 
     fun addProducts(product: Product) {
         products.add(product)
@@ -17,7 +20,20 @@ class VendingMachine(private val products: ArrayList<Product> = ArrayList()) {
     }
 
     fun insertCoin(coins: List<Coin>) {
-        val coinSum = coins.map { it.num }.reduce { acc, next -> acc + next }
+        coinSum = coins.map { it.num }.reduce { acc, next -> acc + next }
         println("coinSum $coinSum")
+
+        if (coinSum < selectedProduct!!.price) {
+            throw RuntimeException("Please enter more coins")
+        }
+
+        if (selectedProduct!!.price < coinSum) {
+            returnChange()
+        }
+    }
+
+    private fun returnChange(): Map<Coin, Int> {
+        var excessAmount = coinSum - selectedProduct!!.price
+        return Collections.emptyMap()
     }
 }

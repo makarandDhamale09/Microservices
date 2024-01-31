@@ -47,10 +47,10 @@ public class Vending {
 
         //check for highest denomination then give the coins
         if (coinInventory.get(Coin.TWENTY_FIVE) * 25 > coinSum) {
-            int twfCount = excessAmount / Coin.TWENTY_FIVE.getNum();
-            excessAmount = excessAmount % Coin.TWENTY_FIVE.getNum() * twfCount;
-            coinInventory.computeIfPresent(Coin.TWENTY_FIVE, (k, v) -> v - twfCount);
-            returnCoins.put(Coin.TWENTY_FIVE, twfCount);
+            int coins_25 = excessAmount / Coin.TWENTY_FIVE.getNum();
+            excessAmount = excessAmount % Coin.TWENTY_FIVE.getNum() * coins_25;
+            coinInventory.computeIfPresent(Coin.TWENTY_FIVE, (k, v) -> v - coins_25);
+            returnCoins.put(Coin.TWENTY_FIVE, coins_25);
         }
         return returnCoins;
     }
