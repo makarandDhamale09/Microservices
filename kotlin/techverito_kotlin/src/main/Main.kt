@@ -1,5 +1,4 @@
-import Coin.FIVE
-import Coin.TEN
+import Coin.*
 import Type.*
 
 fun main() {
@@ -13,7 +12,8 @@ fun main() {
     machine.selectProduct(COKE)
 
     //insertCoins and return change
-    machine.insertCoin(listOf(FIVE))
+    val returnedCoins = machine.insertCoin(listOf(FIVE, TWENTY_FIVE))
+    println("Returned Coins : $returnedCoins")
 
     //dispense Product
     machine.dispenseProduct()

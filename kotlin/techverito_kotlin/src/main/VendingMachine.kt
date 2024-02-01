@@ -1,8 +1,10 @@
+import Coin.*
 import java.util.*
 
 class VendingMachine(private val products: ArrayList<Product> = ArrayList()) {
     private var selectedProduct: Product? = null
     private var coinSum: Int = 0
+    private val coinInventory = mutableMapOf(ONE to 10, FIVE to 10, TEN to 10, TWENTY_FIVE to 10)
 
     fun addProducts(product: Product) {
         products.add(product)
@@ -19,7 +21,7 @@ class VendingMachine(private val products: ArrayList<Product> = ArrayList()) {
         return dispenseProduct
     }
 
-    fun insertCoin(coins: List<Coin>) {
+    fun insertCoin(coins: List<Coin>): Map<Coin, Int> {
         coinSum = coins.map { it.num }.reduce { acc, next -> acc + next }
         println("coinSum $coinSum")
 
@@ -28,12 +30,22 @@ class VendingMachine(private val products: ArrayList<Product> = ArrayList()) {
         }
 
         if (selectedProduct!!.price < coinSum) {
-            returnChange()
+            return returnChange()
         }
+        return Collections.emptyMap()
     }
 
     private fun returnChange(): Map<Coin, Int> {
         var excessAmount = coinSum - selectedProduct!!.price
-        return Collections.emptyMap()
+        val returnCoins = HashMap<Coin, Int>()
+
+        //check for highest denomination then give the coins
+        if (coinInventory.getValue(TWENTY_FIVE) * 25 > coinSum) {
+            val coins_25 = excessAmount / TWENTY_FIVE.num
+            excessAmount = excessAmount % TWENTY_FIVE.num * coins_25
+            coinInventory.computeIfPresent(TWENTY_FIVE) { key, value -> value - coins_25 }
+            returnCoins.put(TWENTY_FIVE,coins_25)
+        }
+        return returnCoins
     }
 }
