@@ -10,9 +10,14 @@ class VendingMachine(private val products: ArrayList<Product> = ArrayList()) {
         products.add(product)
     }
 
-    fun selectProduct(type: Type) {
+    fun getProducts(): ArrayList<Product> {
+        return products
+    }
+
+    fun selectProduct(type: Type): Product? {
         selectedProduct = products.find { it.type == type }
         println("SelectedProduct is $selectedProduct")
+        return selectedProduct
     }
 
     fun dispenseProduct(): Product? {
@@ -24,6 +29,7 @@ class VendingMachine(private val products: ArrayList<Product> = ArrayList()) {
     fun insertCoin(coins: List<Coin>): Map<Coin, Int> {
         coinSum = coins.map { it.num }.reduce { acc, next -> acc + next }
         println("coinSum $coinSum")
+        println("selected product $selectedProduct")
 
         if (coinSum < selectedProduct!!.price) {
             throw RuntimeException("Please enter more coins")
