@@ -1,4 +1,4 @@
-package com.myproject.productpublicistsapient
+package com.myproject
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
