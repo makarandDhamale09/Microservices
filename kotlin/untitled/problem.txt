@@ -1,3 +1,0 @@
-1. Design a vending machine. It should have at least three types of products.
-2. Users should be able to insert coins of various denominations (e.g. 1, 5, 10, 25 cents) to buy product.
-3. Users should be able to select a product and the vending machine should dispense the product if the user has inserted enough money.
